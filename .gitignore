@@ -1,0 +1,4 @@
+# Ignore for local dev
+tmp/
+
+Makefile
