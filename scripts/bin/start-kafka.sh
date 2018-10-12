@@ -1,5 +1,12 @@
 #!/bin/bash -e
 
+# Allow specific kafka versions to perform any unique bootstrap operations
+OVERRIDE_FILE="/opt/overrides/${KAFKA_VERSION}.sh"
+if [[ -x "$OVERRIDE_FILE" ]]; then
+    echo "Executing override file $OVERRIDE_FILE"
+    eval "$OVERRIDE_FILE"
+fi
+
 # Store original IFS config, so we can restore it at various stages
 ORIG_IFS=$IFS
 
@@ -15,7 +22,6 @@ fi
 create-topics.sh &
 unset KAFKA_CREATE_TOPICS
 
-# DEPRECATED: but maintained for compatibility with older brokers pre 0.9.0 (https://issues.apache.org/jira/browse/KAFKA-1809)
 if [[ -z "$KAFKA_ADVERTISED_PORT" && \
   -z "$KAFKA_LISTENERS" && \
   -z "$KAFKA_ADVERTISED_LISTENERS" && \
