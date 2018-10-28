@@ -5,7 +5,8 @@ FROM openjdk:8u171-jre-alpine
 
 LABEL maintainer="cuongtransc@gmail.com"
 
-ARG kafka_version=2.0.0
+# ARG kafka_version=2.0.0
+ARG kafka_version=1.1.0
 ARG scala_version=2.12
 ARG glibc_version=2.27-r0
 

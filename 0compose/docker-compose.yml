@@ -7,21 +7,46 @@ services:
             - "2181:2181"
         networks:
             - comp_default
+        hostname: zookeeper
+        domainname: devopsz.com
+        cpu_shares: 512
+        mem_limit: 512M
+        # privileged: true
+        # restart: always           # other choice: on-failure:3
+        # stdin_open: true
+        # tty: true
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "100M"
+                max-file: "3"
 
     kafka:
         image: cuongtransc/kafka:2.0.0
         depends_on:
             - zookeeper
+        environment:
+            KAFKA_ADVERTISED_HOST_NAME: 172.17.0.1
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
         ports:
             - "9092:9092"
         networks:
             - comp_default
-        environment:
-            # KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
-            KAFKA_ADVERTISED_HOST_NAME: 172.17.0.1
-            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
         # volumes:
         #   - /var/run/docker.sock:/var/run/docker.sock
+        hostname: kafka
+        domainname: devopsz.com
+        cpu_shares: 512
+        mem_limit: 512M
+        # privileged: true
+        # restart: always           # other choice: on-failure:3
+        # stdin_open: true
+        # tty: true
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "100M"
+                max-file: "3"
 
 networks:
     comp_default:
